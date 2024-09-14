@@ -10,6 +10,11 @@ const PostSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
+    // I added a field for comments referencing the Comment model
+    comments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment',
+    }],
 }, { timestamps: true });
 
 module.exports = mongoose.model('Post', PostSchema);
