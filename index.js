@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const postRoutes = require("./routes/postRoutes");
 const userRoutes = require("./routes/userRoutes");
 const commentRoutes = require("./routes/commentRoutes");
+const passport = require('passport');
+require('./passport');
 
 require("dotenv").config();
 
@@ -13,7 +15,15 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(express.json());
 
-// Routes
+// Middleware to initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// OAuth Routes (Authentication Routes)
+const authRoutes = require('./routes/authRoutes');
+app.use('/auth', authRoutes); // Place authentication routes at the top of other routes
+
+// API Routes
 app.use("/api/posts", postRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/comments", commentRoutes);
